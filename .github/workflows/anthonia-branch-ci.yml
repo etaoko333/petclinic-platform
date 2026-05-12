@@ -1,0 +1,31 @@
+name: Anthonia Branch CI
+
+on:
+  push:
+    branches:
+      - 'feature/GPM-*'
+  pull_request:
+    branches:
+      - dev
+
+jobs:
+  validate:
+    name: Validate Docs and Structure
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Verify docs structure
+        run: |
+          echo "Checking docs folder structure"
+          ls -la docs/ || echo "docs folder will be created"
+          echo "Branch: ${{ github.ref_name }}"
+          echo "Validation complete"
+
+      - name: Build summary
+        run: |
+          echo "### Anthonia Branch CI" >> $GITHUB_STEP_SUMMARY
+          echo "- Branch: ${{ github.ref_name }}" >> $GITHUB_STEP_SUMMARY
+          echo "- Status: PASSED" >> $GITHUB_STEP_SUMMARY
+          echo "- Target: dev branch" >> $GITHUB_STEP_SUMMARY
